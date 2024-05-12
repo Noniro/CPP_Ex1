@@ -2,19 +2,21 @@
  * Demo program for Exercise 2.
  * Author: Benjamin Saldman.
  */
-
+#include <iostream>
 #include "Graph.hpp"
 #include "Algorithms.hpp"
-using ariel::Algorithms;
-
-#include <iostream>
 #include <stdexcept>
 #include <vector>
+
+//using namespace ariel::Algorithms;
 using namespace std;
+using namespace VOGDAN;
 
 int main()
+
 {
-    ariel::Graph g;
+    
+    Graph g; // Create a graph object.
     // 3x3 matrix that represents a connected graph.
     vector<vector<int>> graph = {
         {0, 1, 0},
@@ -22,21 +24,23 @@ int main()
         {0, 1, 0}};
     g.loadGraph(graph); // Load the graph to the object.
 
-    g.printGraph();                                    // Should print: "Graph with 3 vertices and 4 edges."
-    cout << Algorithms::isConnected(g) << endl;        // Should print: "1" (true).
+    g.printGraph();                                    // Should print: "Graph with 3 vertices and 4 edges.(directed)"
+    cout << Algorithms::isConnected(g) << endl;        // Should print: "1" (when strongly). "0" otherwise.
     cout << Algorithms::shortestPath(g, 0, 2) << endl; // Should print: 0->1->2.
-    cout << Algorithms::isContainsCycle(g) << endl;    // Should print: "0" (false).
+    cout << Algorithms::isContainsCycle(g) << endl;    // Should print: "0->1->0" (true).
     cout << Algorithms::isBipartite(g) << endl;        // Should print: "The graph is bipartite: A={0, 2}, B={1}."
 
     // 5x5 matrix that represents a non-connected graph with a cycle.
+    
     vector<vector<int>> graph2 = {
-        {0, 1, 1, 0, 0},
+        {0, 1, 1, 0, 0},  
         {1, 0, 1, 0, 0},
         {1, 1, 0, 1, 0},
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
-
+     
     g.loadGraph(graph2); // Load the graph to the object.
+    
 
     g.printGraph();                                    // Should print: "Graph with 5 vertices and 8 edges."
     cout << Algorithms::isConnected(g) << endl;        // Should print: "0" (false).

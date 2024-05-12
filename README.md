@@ -1,29 +1,114 @@
-# מטלה 1 - גרפים (Classes and Namespaces)
+# System Programming 2 , assignment 1.
 
-המטרה שלכם במטלה הזאת היא ליצור מחלקה שמייצגת גרף ולממש אלגוריתמים על הגרפים (זה הזמן להזכר בקורס אלגוריתמים 1).
+### Author
+ -Name:    Yuval Vogdan.
+ -Email:   yuvalv126@gmail.com
+ -git url: https://github.com/Noniro 
 
-במטלה הזאת הייצוג של הגרף שלכם יתבצע בעזרת מטריצת שכנויות - https://he.wikipedia.org/wiki/%D7%9E%D7%98%D7%A8%D7%99%D7%A6%D7%AA_%D7%A9%D7%9B%D7%A0%D7%95%D7%AA.
 
-הגרף יכול להיות גרף מכוון ולא מכוון וגם גרף ממושקל. מטריצת השכנויות חייבת להיות מטריצה ריבועית.
+This repository contains implementations of various graph algorithms in C++.
 
-עליכם לכתוב את הקבצים הבאים:
+## Classes
 
-```
-Graph.cpp
-Algorithms.cpp
-```
+### 1. Algorithms
 
-הקובץ `Graph.cpp` מכיל מחלקה המייצגת גרף.
-המחלקה מכילה את הפעולות `loadGraph` המקבלת מטריצת שכנויות וטוענת אותה לתוך הגרף ו-`printGraph` שמדפיסה את הייצוג של הגרף (הפורמט לבחירתכם, ראו דוגמה ב-`Demo.cpp`).
+The `Algorithms` class provides implementations of the following graph algorithms:
 
-הקובץ `Algorithms.cpp` מכיל מימושים לאלגוריתמים על גרפים. ביניהם:
+- **isConnected**: Determines whether the graph is connected. For directed graphs,
+    it checks if the graph is strongly connected.
+- **shortestPath**: Computes the shortest path between two vertices. 
+    It uses Bellman-Ford algorithm for weighted graphs and BFS for unweighted graphs.
+- **isContainsCycle**: Checks if the graph contains a cycle and returns the cycle path if present.
+- **isBipartite**: Determines if the graph is bipartite. 
+    It returns the two groups of vertices if the graph is bipartite.
+- **negativeCycle**: Checks if the graph contains a negative cycle. 
+    It uses the Bellman-Ford algorithm for this purpose.
 
-- `isConnected(g)` - האלגוריתם מקבל גרף ומחזיר 1 אם הגרף קשיר (אחרת מחזיר 0).
-- `shortestPath(g,start,end)` - האלגוריתם מקבל גרף, קודקוד התחלה וקודקוד סיום ומחזיר את המסלול הקל ביותר (במקרה שהגרף לא ממושקל - הקצר ביותר) בין שני הקודקודים. במידה ואין מסלול כזה, האלגוריתם יחזיר -1.
-- `isContainsCycle(g)` - האלגוריתם מקבל גרף ומדפיס מעגל כלשהו. אם לא קיים מעגל בגרף, האלגוריתם יחזיר 0.
-- `isBipartite(g)` - האלגוריתם מקבל גרף ומחזיר את החלוקה של הגרף לגרף דו-צדדי. אם אי אפשר לחלק את הגרף, האלגוריתם יחזיר 0.
-- `negativeCycle(g)` - האלגוריתם מקבל גרף ומוצא מעגל שלילי (כלומר מעגל שסכום המשקלים של הצלעות שלילי). אם לא קיים מעגל כזה, האלגוריתם ידפיס שלא קיים מעגל שלילי.
+### 2. Graph
 
-הקובץ `Demo.cpp` מכיל דוגמאות של קלטים ופלטים.
-עליכם לכתוב בתחילת כל קובץ את מספר תעודת הזהות שלכם ואת המייל. כמו כן, בנוסף לקבצים של המטלה אתם נדרשים להגיש גם קובץ README המתאר את אופן המימוש ואת החלוקה שביצעתם בקוד (סוג של מדריך משתמש). אי עמידה בהנחיות תגרור הפחתה בציון. בהצלחה!
-  
+The `Graph` class represents a graph using an adjacency matrix. 
+It provides the following functionalities:
+
+ - **loadGraph(const vector<vector<int>>& adjacencyMatrix)**: Loads the graph with the provided adjacency matrix and initialize fields accordingly.
+- **getTranspose()**: Returns the transpose of the graph.
+- **printGraph()**: Prints number of edges and vertecies.
+- **countEdges()**: Counts the number of edges in the graph.
+- **getVerticesCount()**: Returns the number of vertices in the graph.
+- **getNeighbors(int v)**: Returns the neighbors of a vertex.
+- **getAdjacencyMatrix()**: Returns the adjacency matrix of the graph.
+- **getIsDirected()**: Returns true if the graph is directed, false otherwise.
+- **getEdgeWeight(int u, int v)**: Returns the weight of the edge between vertices u and v.
+- **setDirected(bool isDirected)**: Sets the directedness of the graph.
+
+
+
+## Usage
+
+To use these graph algorithms, include the necessary headers (`Algorithms.hpp` and `Graph.hpp`) 
+and instantiate the `Graph` class with the required graph data.
+also, make sure to use the VOGDAN namespace or declare it before each method.
+Then, use the methods provided by the `Algorithms` class to perform graph operations.
+example:
+````````````````````````````````````cpp
+VOGDAN::Graph g;
+VOGDAN::Algorithms::isConnected(graph);
+
+````````````````````````````````````
+or add "using namespace VOGDAN; at the top of the file"
+To initialize a `Graph` object, you need to pass if the graph is directed or not.
+(default is undirected)
+examples:
+````````````````````````````````````cpp
+using namespace VOGDAN;
+Graph g(true);  // directed graph
+Graph g(false); // undirected graph
+Graph g;        // undirected graph
+````````````````````````````````````
+A graph is represented as a matrix, therefore after creating your desired graph (matrix)
+we use the loadGraph function to initialize the adjacencyMatrix:
+
+````````````````````````````````````cpp
+// 5x5 matrix that reprsents a connected weighted graph.
+    vector<vector<int>> graph3 = {
+        {0, 1, 2, 0, 0},
+        {1, 0, 3, 0, 0},
+        {2, 3, 0, 4, 0},
+        {0, 0, 4, 0, 5},
+        {0, 0, 0, 5, 0}};
+    g.loadGraph(graph3);
+````````````````````````````````````
+## Main algorithms:
+
+# isConnected:
+
+This method determines if the graph is connected, meaning that there exists a path between every pair of vertices in the graph.
+It employs Depth-First Search (DFS) to traverse the graph and mark visited vertices.
+For directed graphs, it additionally checks for strong connectivity by performing DFS on the transpose of the graph.
+If any vertex remains unvisited after DFS traversal, the graph is deemed disconnected.
+
+# shortestPath:
+
+This method finds the shortest path between two vertices in the graph.
+If the graph is unweighted, it uses Breadth-First Search (BFS) to find the shortest path.
+If the graph is weighted, it employs the Bellman-Ford algorithm, which works even with negative edge weights and detects negative weight cycles.
+The function initializes distances and parent arrays, then relaxes edges iteratively to find the shortest paths.
+
+# isContainsCycle:
+
+This method determines whether the graph contains any cycles.
+It uses DFS traversal to explore the graph and detect cycles.
+While traversing, it maintains a color array to mark vertices as white (unvisited), gray (visited but not yet processed), or black (visited and processed).
+If it encounters a gray vertex during traversal, it indicates the presence of a cycle.
+
+# isBipartite:
+
+This method checks if the graph is bipartite, meaning its vertices can be divided into two disjoint sets such that no two vertices within the same set are adjacent.
+It uses BFS traversal to assign colors (0 and 1) to vertices, ensuring that adjacent vertices have different colors.
+If a vertex is found to have conflicting colors (i.e., adjacent vertices with the same color), the graph is not bipartite.
+For directed graphs, the method simply returns that the graph is not bipartite, as bipartite classification typically applies to undirected graphs.
+
+# Testing:
+
+In this assignment you can find in *Test.cpp* a bunch of test casses i wrote that test all the graph algorithms. 
+Each test case describes the main thing i want to test in the graph. 
+
